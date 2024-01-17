@@ -54,6 +54,7 @@ function App(): React.JSX.Element {
 
 const styles = StyleSheet.create({
   searchTextInput: {
+    color: 'black',
     minHeight: 40,
     margin: 24,
     paddingHorizontal: 12,
