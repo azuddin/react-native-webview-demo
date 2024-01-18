@@ -9,6 +9,7 @@ import React, {useState} from 'react';
 import {
   Keyboard,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   TextInput,
   TouchableWithoutFeedback,
@@ -40,13 +41,17 @@ function App(): React.JSX.Element {
           onSubmitEditing={handleSubmit}
         />
         <View style={{borderWidth: 0.5}} />
-        <WebView
-          source={{
-            uri: url,
-          }}
-          style={styles.webViewStyle}
-          onLoad={() => setOnload(false)}
-        />
+        <ScrollView
+          style={styles.scrollViewStyle}
+          contentContainerStyle={styles.scrollViewContent}>
+          <WebView
+            source={{
+              uri: url,
+            }}
+            style={styles.webViewStyle}
+            onLoad={() => setOnload(false)}
+          />
+        </ScrollView>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -67,6 +72,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
+  scrollViewStyle: {width: '100%'},
+  scrollViewContent: {flexGrow: 1},
 });
 
 export default App;
