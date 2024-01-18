@@ -7,6 +7,7 @@
 
 import React, {useState} from 'react';
 import {
+  Dimensions,
   Keyboard,
   SafeAreaView,
   ScrollView,
@@ -20,7 +21,7 @@ import WebView from 'react-native-webview';
 function App(): React.JSX.Element {
   const [query, onChangeText] = useState('');
   const [url, onSubmit] = useState('https://www.google.com/search?q=chip');
-  const [load, setOnload] = useState(true);
+  const [loadProgress, setOnloadProgress] = useState(1);
 
   const handleSubmit = () => {
     console.log('submit');
@@ -40,16 +41,28 @@ function App(): React.JSX.Element {
           style={styles.searchTextInput}
           onSubmitEditing={handleSubmit}
         />
-        <View style={{borderWidth: 0.5}} />
+        {loadProgress < 1 && (
+          <View
+            style={{
+              height: 5,
+              backgroundColor: 'purple',
+              width: loadProgress * Dimensions.get('window').width,
+            }}
+          />
+        )}
         <ScrollView
           style={styles.scrollViewStyle}
+          nestedScrollEnabled={true}
           contentContainerStyle={styles.scrollViewContent}>
           <WebView
+            onLoadProgress={({nativeEvent}) => {
+              setOnloadProgress(nativeEvent.progress);
+            }}
+            onStartShouldSetResponder={() => true}
             source={{
               uri: url,
             }}
             style={styles.webViewStyle}
-            onLoad={() => setOnload(false)}
           />
         </ScrollView>
       </SafeAreaView>
